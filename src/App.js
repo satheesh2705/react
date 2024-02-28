@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Login from './login'
+import Contant from './Contant'
+import Home from './Home'
 
-function App() {
+const App = () => {
+
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: 'Hello World',
+      body: 'This is the first post',
+    }
+  ] ) 
+  const [postTitle, setPostTitle] = useState('')
+  const [postBody, setPostBody] = useState('')
+
+
+  const handleSubmit = async (e) => {
+
+      e.preventDefault(); 
+      // const id = posts.length ? posts[posts.length -1 ].id + 1 : 1;
+      const id = posts.length ? posts[posts.length ]:1;
+      const newPost = {id, title:postTitle,  body:postBody}
+          const allPosts = [...posts, newPost]
+          setPosts(allPosts);
+          localStorage.setItem("todo_list",JSON.stringify(allPosts))
+          setPostTitle('')
+          setPostBody('')
+        }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+    <div>
+
+   
+      <Home posts={posts}/>
+      
+
+    
+    <Login
+              handleSubmit={handleSubmit}
+              postTitle={postTitle}
+              setPostTitle={setPostTitle} 
+              postBody={postBody}
+              setPostBody={setPostBody}
+     />
+    <Contant />
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
